@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Simple Calculator</title>
+  <style>
+  @import url(https://fonts.googleapis.com/css?family=Oleo+Script);
+  body{
+    background:#ccc;
+  }
+  .wrap{
+    width:300px;
+    margin:100px auto;
+    padding: 20px 40px;
+    background:#424242;
+    border-radius:15px;
+  }
+  h1{
+    margin: 10px;
+    font-family:'Oleo Script', cursive;
+    font-size:30px;
+    color:#fff;
+    text-align:center;
+  }
+  input.textbox{
+    width:97%;
+    margin-bottom:20px;
+    padding-right:10px;
+    border:none;
+    line-height:25px;
+    text-align:right;
+  }
+  .buttons{width:285px; margin:0 auto;}
+  .button{
+    width:65px;
+    height:40px;
+    margin-bottom:8px;
+    border:none;
+    border-radius:5px;
+    color:#424242;
+    background:#fff;
+  }
+  .button:hover{
+    cursor:pointer;
+  }
+  </style>
+  <script>
+  var ans = 0;
+  var clear = false;
+  var calc = "";
+  var flag = 0;
+  //flag：如果按了数字按钮，flag=0，可继续输入数字or运算符按钮；如果按运算符按钮，flag=1，继续按运算符按钮无效。
+  $(document).ready(function(){
+    $("button").click(function(){
+      var text = $(this).attr("value");
+      if(parseInt(text,10)==text){
+        if(clear==false){
+          calc += text;
+          $(".textbox").val(calc);
+        }else{
+          calc = text;
+          $(".textbox").val(calc);
+          clear = false;
+        }
+        flag = 0;
+      }else if(text==="%" || text==="/" || text==="*" || text==="-" || text==="+" || text==="."){
+        if(clear==false){
+          if(flag == 0){
+            if(calc.length>0){
+              calc += text;
+            }else{
+              calc = "0"+text;
+            }
+          }
+          $(".textbox").val(calc);
+        }else{
+          calc = ans+text;
+          $(".textbox").val(calc);
+          clear = false;
+        }
+        flag = 1;
+    }else if(text==="AC"){
+      calc = "";
+      $(".textbox").val("0");
+    }else if(text==="CE"){
+      calc = calc.slice(0,-1);
+      if(calc.length<1){
+        $(".textbox").val("0");
+      }else{
+        $(".textbox").val(calc);
+      }
+    }else if(text==="Ans"){
+      clear = false;
+      calc += ans;
+      $(".textbox").val(calc); 
+      flag = 0;
+    }else if(text==="="){
+      ans = eval(calc);
+      $(".textbox").val(ans);
+      clear = true;
+    }
+  });
+  });
+  </script>
+</head>
+<body>
+	<div class="wrap">
+	<h1>Simple CalCulator</h1>
+	<input type="text" class="textbox" readonly value="0">
+	<div class="buttons">
+		<button class="button" value="AC">AC</button>
+		<button class="button" value="CE">CE</button>
+		<button class="button" value="%">%</button>
+		<button class="button" value="/">/</button>
+		<button class="button" value="7">7</button>
+		<button class="button" value="8">8</button>
+		<button class="button" value="9">9</button>
+		<button class="button" value="*">*</button>
+		<button class="button" value="4">4</button>
+		<button class="button" value="5">5</button>
+		<button class="button" value="6">6</button>
+		<button class="button" value="-">-</button>
+		<button class="button" value="1">1</button>
+		<button class="button" value="2">2</button>
+		<button class="button" value="3">3</button>
+		<button class="button" value="+">+</button>
+		<button class="button" value="0">0</button>
+		<button class="button" value=".">.</button>
+		<button class="button" value="Ans">Ans</button>
+		<button class="button" value="=">=</button>
+	</div>
+</div>
+</body>
+</html>
